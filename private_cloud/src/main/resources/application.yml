@@ -1,0 +1,31 @@
+server:
+  port: 1557
+  address: 0.0.0.0
+
+spring:
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: your_db_url
+    username: your_db_id
+    password: your_db_pw
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    show-sql: false
+
+    properties:
+      hibernate:
+        format-sql: true
+
+  application:
+    name: cloud
+
+  devtools:
+    restart:
+      enabled: true
+
+jwt:
+  jwtkey: your_jwt_key
