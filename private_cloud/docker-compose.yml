@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # 1. 데이터베이스 서비스
+  db:
+    image: mariadb:10.6
+    container_name: family-cloud-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: family_cloud
+      MYSQL_ROOT_PASSWORD: "root_pw"
+      MYSQL_USER: "sql_id"
+      MYSQL_PASSWORD: "sql_pw"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "cloud_user", "-pcloud_password"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # 2. 스프링 부트 애플리케이션 서비스
+  app:
+    build: .
+    container_name: family-cloud-app
+    # [핵심] 터미널 입력(Scanner)을 허용하는 설정
+    stdin_open: true
+    tty: true
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "59273:1557"
+    volumes:
+      - /mnt/familycloud:/family_cloud_storage_________
+    environment:
+      - STORAGE_ROOT=/family_cloud_storage_________
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/family_cloud?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
+      - SPRING_DATASOURCE_USERNAME=sql_id
+      - SPRING_DATASOURCE_PASSWORD=sql_pw
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    restart: always
+
+volumes:
+  db_data:
