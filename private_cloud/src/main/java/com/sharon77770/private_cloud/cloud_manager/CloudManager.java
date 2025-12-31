@@ -13,7 +13,10 @@ import java.util.stream.Stream;
 @Service
 public class CloudManager {
 
-    private final Path rootLocation = Paths.get("family_cloud_storage_________");
+    private final Path rootLocation = Paths.get(System.getenv("STORAGE_ROOT") != null 
+                                            ? System.getenv("STORAGE_ROOT") 
+                                            : "family_cloud_storage_________");
+
 
 
     public Path getUserRootPath(String userId) {
