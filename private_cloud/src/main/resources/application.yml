@@ -6,14 +6,14 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: your_db_url
-    username: your_db_id
-    password: your_db_pw
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/family_cloud}
+    username: ${SPRING_DATASOURCE_USERNAME:cloud_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:cloud_password}
 
   servlet:
     multipart:
-      max-file-size: 50MB
-      max-request-size: 50MB
+      max-file-size: 500MB
+      max-request-size: 500MB
 
   jpa:
     hibernate:
@@ -33,4 +33,4 @@ spring:
       enabled: true
 
 jwt:
-  jwtkey: your_jwt_key
+  jwtkey: your_key
